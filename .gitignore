@@ -2,6 +2,9 @@
 backend/.env
 backend/.env.*
 !backend/.env.example
+server/.env
+server/.env.*
+!server/.env.example
 
 # Environment secrets — client (Next.js frontend)
 frontend/.env
@@ -15,6 +18,8 @@ frontend/.env.*
 
 # Backend local uploads
 backend/uploads/
+server/uploads/
 
 # Go build output
 backend/bin/
+server/bin/
