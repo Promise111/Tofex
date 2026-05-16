@@ -3,6 +3,7 @@ import type {
   Order,
   PaymentAccount,
   Product,
+  StoreBranch,
   User,
 } from "./types";
 
@@ -40,6 +41,14 @@ export const publicApi = {
     });
     const data = await parseJson<{ products: Product[] }>(res);
     return data.products ?? [];
+  },
+
+  async getBranches(): Promise<StoreBranch[]> {
+    const res = await fetch(`${API_URL}/api/v1/public/branches`, {
+      next: { revalidate: 60 },
+    });
+    const data = await parseJson<{ branches: StoreBranch[] }>(res);
+    return data.branches ?? [];
   },
 
   async getPaymentAccounts(): Promise<PaymentAccount[]> {
@@ -173,5 +182,49 @@ export const adminApi = {
       body: JSON.stringify(body),
     });
     return parseJson<PaymentAccount>(res);
+  },
+
+  async listBranches(token: string) {
+    const res = await fetch(`${API_URL}/api/v1/admin/branches`, {
+      headers: authHeaders(token),
+      cache: "no-store",
+    });
+    const data = await parseJson<{ branches: StoreBranch[] }>(res);
+    return data.branches ?? [];
+  },
+
+  async createBranch(
+    token: string,
+    body: Omit<StoreBranch, "id" | "active"> & { active?: boolean },
+  ) {
+    const res = await fetch(`${API_URL}/api/v1/admin/branches`, {
+      method: "POST",
+      headers: { ...authHeaders(token), "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return parseJson<StoreBranch>(res);
+  },
+
+  async patchBranch(
+    token: string,
+    id: number,
+    body: Partial<Omit<StoreBranch, "id">>,
+  ) {
+    const res = await fetch(`${API_URL}/api/v1/admin/branches/${id}`, {
+      method: "PATCH",
+      headers: { ...authHeaders(token), "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return parseJson<StoreBranch>(res);
+  },
+
+  async deleteBranch(token: string, id: number) {
+    const res = await fetch(`${API_URL}/api/v1/admin/branches/${id}`, {
+      method: "DELETE",
+      headers: authHeaders(token),
+    });
+    if (!res.ok) {
+      await parseJson(res);
+    }
   },
 };

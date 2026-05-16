@@ -53,6 +53,16 @@ func (s *Server) PublicGetProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, p)
 }
 
+// PublicListStoreBranches lists active pickup locations for customers.
+func (s *Server) PublicListStoreBranches(c *gin.Context) {
+	var list []models.StoreBranch
+	if err := s.DB.Where("active = ?", true).Order("sort_order asc, id asc").Find(&list).Error; err != nil {
+		httpx.JSONError(c, 500, "server_error", "could not list branches")
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"branches": list})
+}
+
 // PublicListPaymentAccounts lists active bank accounts customers can pay into.
 //
 //	@Summary		List payment accounts (public)

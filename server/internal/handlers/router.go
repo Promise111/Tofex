@@ -31,6 +31,7 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
 			pub.GET("/products", s.PublicListProducts)
 			pub.GET("/products/:id", s.PublicGetProduct)
 			pub.GET("/product-images/:id", s.PublicProductImageFile)
+			pub.GET("/branches", s.PublicListStoreBranches)
 			pub.GET("/payment-accounts", s.PublicListPaymentAccounts)
 			pub.POST("/orders", s.PublicCreateOrder)
 		}
@@ -54,6 +55,11 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
 			adm.PATCH("/products/:id", middleware.RequirePermission(permissions.ProductsUpdate), s.AdminPatchProduct)
 			adm.DELETE("/products/:id", middleware.RequirePermission(permissions.ProductsDelete), s.AdminDeleteProduct)
 			adm.POST("/products/:id/images", middleware.RequirePermission(permissions.ProductsUpdate), s.AdminUploadProductImage)
+
+			adm.GET("/branches", middleware.RequirePermission(permissions.BranchesRead), s.AdminListStoreBranches)
+			adm.POST("/branches", middleware.RequirePermission(permissions.BranchesCreate), s.AdminCreateStoreBranch)
+			adm.PATCH("/branches/:id", middleware.RequirePermission(permissions.BranchesUpdate), s.AdminPatchStoreBranch)
+			adm.DELETE("/branches/:id", middleware.RequirePermission(permissions.BranchesDelete), s.AdminDeleteStoreBranch)
 
 			adm.GET("/payment-accounts", middleware.RequirePermission(permissions.PaymentAccountsRead), s.AdminListPaymentAccounts)
 			adm.POST("/payment-accounts", middleware.RequirePermission(permissions.PaymentAccountsCreate), s.AdminCreatePaymentAccount)

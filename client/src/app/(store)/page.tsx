@@ -36,8 +36,8 @@ export default async function HomePage() {
                   View menu <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/checkout">
-                <Button variant="secondary">Go to checkout</Button>
+              <Link href="/locations">
+                <Button variant="secondary">Find a branch</Button>
               </Link>
             </div>
           </FadeIn>
@@ -65,7 +65,11 @@ export default async function HomePage() {
           {[
             { step: "1", title: "Choose items", text: "Add pastries and meals from our live menu." },
             { step: "2", title: "Pay & upload receipt", text: "Transfer to our account and attach proof of payment." },
-            { step: "3", title: "Pick up in store", text: "We'll confirm your order and have it ready for you." },
+            {
+              step: "3",
+              title: "Pick up in store",
+              text: "We'll confirm your order and have it ready at your nearest branch.",
+            },
           ].map((item, i) => (
             <FadeIn key={item.step} delay={i * 0.1}>
               <div className="rounded-2xl border border-border bg-background p-6">

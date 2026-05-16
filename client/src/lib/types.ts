@@ -36,6 +36,20 @@ export interface Product {
   images?: ProductImage[];
 }
 
+export interface StoreBranch {
+  id: number;
+  name: string;
+  address: string;
+  city?: string;
+  phone?: string;
+  hours?: string;
+  maps_url?: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  active: boolean;
+  sort_order: number;
+}
+
 export interface PaymentAccount {
   id: number;
   bank_name: string;

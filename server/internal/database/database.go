@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/tofex/backend/internal/models"
+	"github.com/tofex/backend/internal/permissions"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -33,6 +34,7 @@ func AutoMigrate(db *gorm.DB) error {
 		&models.RolePermission{},
 		&models.Product{},
 		&models.ProductImage{},
+		&models.StoreBranch{},
 		&models.PaymentAccount{},
 		&models.Order{},
 		&models.OrderItem{},
@@ -80,6 +82,7 @@ func SeedRBAC(db *gorm.DB) error {
 				"users.read", "users.create", "users.update", "users.delete",
 				"roles.read",
 				"products.read", "products.create", "products.update", "products.delete",
+				"branches.read", "branches.create", "branches.update", "branches.delete",
 				"payment_accounts.read",
 				"orders.read", "orders.update",
 				"audit.read",
@@ -108,6 +111,36 @@ func SeedRBAC(db *gorm.DB) error {
 				return err
 			}
 		}
+	}
+	return nil
+}
+
+// EnsureBranchPermissions adds store-branch permissions to the admin role on existing databases.
+func EnsureBranchPermissions(db *gorm.DB) error {
+	var admin models.Role
+	if err := db.Where("name = ?", "admin").First(&admin).Error; err != nil {
+		return nil
+	}
+	branchPerms := []string{
+		permissions.BranchesRead,
+		permissions.BranchesCreate,
+		permissions.BranchesUpdate,
+		permissions.BranchesDelete,
+	}
+	for _, p := range branchPerms {
+		var n int64
+		if err := db.Model(&models.RolePermission{}).
+			Where("role_id = ? AND permission = ?", admin.ID, p).
+			Count(&n).Error; err != nil {
+			return err
+		}
+		if n > 0 {
+			continue
+		}
+		if err := db.Create(&models.RolePermission{RoleID: admin.ID, Permission: p}).Error; err != nil {
+			return err
+		}
+		log.Printf("granted %s to admin role", p)
 	}
 	return nil
 }

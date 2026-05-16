@@ -57,6 +57,24 @@ type ProductImage struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
+// StoreBranch is a physical Tofex pickup location (not a bank branch).
+type StoreBranch struct {
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	Name      string         `gorm:"not null;size:255" json:"name"`
+	Address   string         `gorm:"type:text;not null" json:"address"`
+	City      string         `gorm:"size:128" json:"city,omitempty"`
+	Phone     string         `gorm:"size:64" json:"phone,omitempty"`
+	Hours     string         `gorm:"size:255" json:"hours,omitempty"`
+	MapsURL   string         `gorm:"size:1024" json:"maps_url,omitempty"`
+	Latitude  *float64       `json:"latitude,omitempty"`
+	Longitude *float64       `json:"longitude,omitempty"`
+	Active    bool           `gorm:"not null;default:true;index" json:"active"`
+	SortOrder int            `gorm:"not null;default:0" json:"sort_order"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+}
+
 type PaymentAccount struct {
 	ID             uint           `gorm:"primaryKey" json:"id"`
 	BankName       string         `gorm:"not null;size:255" json:"bank_name"`

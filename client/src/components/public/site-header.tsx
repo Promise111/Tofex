@@ -8,6 +8,7 @@ import { useCart } from "@/components/cart/cart-context";
 const links = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Menu" },
+  { href: "/locations", label: "Locations" },
 ];
 
 export function SiteHeader() {

@@ -22,6 +22,11 @@ const (
 	PaymentAccountsUpdate = "payment_accounts.update"
 	PaymentAccountsDelete = "payment_accounts.delete"
 
+	BranchesRead   = "branches.read"
+	BranchesCreate = "branches.create"
+	BranchesUpdate = "branches.update"
+	BranchesDelete = "branches.delete"
+
 	OrdersRead   = "orders.read"
 	OrdersCreate = "orders.create"
 	OrdersUpdate = "orders.update"
@@ -34,6 +39,7 @@ var All = []string{
 	RolesRead, RolesUpdate,
 	ProductsRead, ProductsCreate, ProductsUpdate, ProductsDelete,
 	PaymentAccountsRead, PaymentAccountsCreate, PaymentAccountsUpdate, PaymentAccountsDelete,
+	BranchesRead, BranchesCreate, BranchesUpdate, BranchesDelete,
 	OrdersRead, OrdersCreate, OrdersUpdate,
 	AuditRead,
 }

@@ -5,6 +5,7 @@ import {
   CreditCard,
   LayoutDashboard,
   LogOut,
+  MapPin,
   Package,
   ShoppingCart,
 } from "lucide-react";
@@ -25,6 +26,7 @@ const nav = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, perm: null },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart, perm: "orders.read" },
   { href: "/admin/products", label: "Products", icon: Package, perm: "products.read" },
+  { href: "/admin/branches", label: "Branches", icon: MapPin, perm: "branches.read" },
   {
     href: "/admin/payment-accounts",
     label: "Payment accounts",

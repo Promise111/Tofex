@@ -164,6 +164,11 @@ type PaymentAccountsListResponse struct {
 	PaymentAccounts []models.PaymentAccount `json:"payment_accounts"`
 }
 
+// StoreBranchesListResponse store branches wrapper.
+type StoreBranchesListResponse struct {
+	Branches []models.StoreBranch `json:"branches"`
+}
+
 // PatchOrderRequest update order status.
 type PatchOrderRequest struct {
 	Status string `json:"status" example:"confirmed" enums:"pending,confirmed,ready,completed,cancelled"`

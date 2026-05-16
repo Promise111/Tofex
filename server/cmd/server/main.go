@@ -40,6 +40,9 @@ func main() {
 	if err := database.SeedRBAC(db); err != nil {
 		log.Fatalf("seed rbac: %v", err)
 	}
+	if err := database.EnsureBranchPermissions(db); err != nil {
+		log.Fatalf("branch permissions: %v", err)
+	}
 	if err := os.MkdirAll(cfg.UploadDir, 0o755); err != nil {
 		log.Fatalf("upload dir: %v", err)
 	}
