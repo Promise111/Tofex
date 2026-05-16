@@ -1,0 +1,20 @@
+# Environment secrets — server (Go backend)
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Environment secrets — client (Next.js frontend)
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Optional root-level env (e.g. docker-compose)
+.env
+.env.*
+!.env.example
+
+# Backend local uploads
+backend/uploads/
+
+# Go build output
+backend/bin/
